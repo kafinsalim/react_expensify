@@ -110,8 +110,26 @@ const filtersReducer = (state = filtersReducerDefaultState, action) => {
   }
 };
 
-const getVisibleExpenses = (expenses, filters) => {
-  return expenses;
+const getVisibleExpenses = (expenses, { text, sortBy, startDate, endDate }) => {
+  return expenses
+    .filter(expense => {
+      const startDateMatch =
+        typeof startDate !== "number" || expense.createdAt >= startDate;
+      const endDateMatch =
+        typeof startDate !== "number" || expense.createdAt <= endDate;
+      const textMatch = expense.description
+        .toLowerCase()
+        .includes(text.toLowerCase());
+
+      return startDateMatch && endDateMatch && textMatch;
+    })
+    .sort((a, b) => {
+      if (sortBy === "date") {
+        return a.createdAt < b.createdAt ? 1 : -1;
+      } else if (sortBy === "amount") {
+        return a.amount < b.amount ? 1 : -1;
+      }
+    });
 };
 
 // Store creation
@@ -124,29 +142,48 @@ const store = createStore(
 );
 
 store.subscribe(() => {
-  console.log(store.getState());
+  const state = store.getState();
+  // console.log(state.filters);
+  // const { text, sortBy, startDate, endDate } = state.filter;
+  // console.log(text, sortBy, startDate, endDate);
+  const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
+  console.log(visibleExpenses);
 });
 
-// const expenseOne = store.dispatch(
-//   addExpense({ description: "Rent", amount: 100 })
-// );
-// const expenseTwo = store.dispatch(
-//   addExpense({ description: "Coffee", amount: 300 })
-// );
-
+const expenseOne = store.dispatch(
+  addExpense({
+    description: "this is January Rent",
+    amount: 100,
+    createdAt: 10000
+  })
+);
+const expenseTwo = store.dispatch(
+  addExpense({
+    description: "coffe at kedai coffee cenangan",
+    amount: 300,
+    createdAt: 20000
+  })
+);
+const expenseThree = store.dispatch(
+  addExpense({
+    description: "Roti O di stasiun Sudirman",
+    amount: 50,
+    createdAt: 30000
+  })
+);
 // store.dispatch(removeExpense({ id: expenseOne.expense.id }));
 // store.dispatch(
 //   editExpense({ id: expenseTwo.expense.id, updates: { amount: 654321 } })
 // );
-// store.dispatch(setTextFilter("rent"));
+// store.dispatch(setTextFilter("renT"));
 // store.dispatch(setTextFilter());
 
-// store.dispatch(sortByAmount());
+store.dispatch(sortByDate());
 // store.dispatch(sortByDate());
-
-store.dispatch(setStartDate(1234));
-store.dispatch(setStartDate());
-store.dispatch(setEndDate(4321));
+store.dispatch(sortByAmount());
+// store.dispatch(setStartDate(1));
+// store.dispatch(setStartDate());
+// store.dispatch(setEndDate(12));
 
 const demoState = {
   expenses: [
@@ -165,11 +202,3 @@ const demoState = {
     endDate: undefined
   }
 };
-
-const user = {
-  name: "kafin",
-  age: 23,
-  alive: true
-};
-
-console.log({ ...user, locs: "bandung" });
