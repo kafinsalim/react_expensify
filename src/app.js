@@ -21,25 +21,26 @@ import "./styles/styles.scss";
 
 const store = configureStore();
 
+store.dispatch(addExpense({ description: "sarapan bubur", amount: 10000 }));
 store.dispatch(
-  addExpense({ description: "sarapan bubur", amount: 1300, createdAt: 123 })
+  addExpense({ description: "jajan hui 1 Kg", amount: 25000, createdAt: 4444 })
 );
 store.dispatch(
-  addExpense({ description: "meuli hui", amount: 2500, createdAt: 4444 })
+  addExpense({ description: "sodaqohh", amount: 5000, createdAt: 2555 })
 );
 store.dispatch(
-  addExpense({ description: "gorengan campur", amount: 1500, createdAt: 5555 })
+  addExpense({ description: "ongkos grab", amount: 12000, createdAt: 5555 })
 );
-store.dispatch(sortByAmount());
+// store.dispatch(sortByAmount());
 // store.dispatch(sortByDate());
 
-setTimeout(() => {
-  store.dispatch(setTextFilter("hui"));
-}, 3000);
+// setTimeout(() => {
+//   store.dispatch(setTextFilter("hui"));
+// }, 3000);
 
-const state = store.getState();
-const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
-console.log(visibleExpenses);
+// const state = store.getState();
+// const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
+// console.log(visibleExpenses);
 
 const jsx = (
   <Provider store={store}>
