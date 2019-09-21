@@ -3,13 +3,17 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import AppRouter from "./routes/AppRouter";
 import configureStore from "./store/configureStore";
-import { addExpense, editExpense, removeExpense } from "./actions/expenses";
+import {
+  addExpense
+  // , editExpense
+  // , removeExpense
+} from "./actions/expenses";
 import {
   sortByAmount,
   sortByDate,
-  setTextFilter,
-  setStartDate,
-  setEndDate
+  setTextFilter
+  // setStartDate,
+  // setEndDate
 } from "./actions/filters";
 import getVisibleExpenses from "./selectors/expenses";
 import "normalize.css/normalize.css";
@@ -27,7 +31,11 @@ store.dispatch(
   addExpense({ description: "gorengan campur", amount: 1500, createdAt: 5555 })
 );
 store.dispatch(sortByAmount());
-store.dispatch(sortByDate());
+// store.dispatch(sortByDate());
+
+setTimeout(() => {
+  store.dispatch(setTextFilter("hui"));
+}, 3000);
 
 const state = store.getState();
 const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
