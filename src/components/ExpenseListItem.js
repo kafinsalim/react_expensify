@@ -1,10 +1,23 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { removeExpense } from "../actions/expenses";
 import { connect } from "react-redux";
+// import { * } from 'moment'
 
-const ExpenseListItem = ({ dispatch, id, description, amount, createdAt }) => (
+const ExpenseListItem = ({
+  dispatch,
+  id,
+  description,
+  amount,
+  note,
+  createdAt
+}) => (
   <div>
-    <h3>{description}</h3>
+    <Link to={`/edit/${id}`}>
+      <h6>{id}</h6>
+      <h3>{description}</h3>
+    </Link>
+    <p>{note}</p>
     <p>
       Rp.{amount} - {createdAt}
       <button
@@ -13,7 +26,7 @@ const ExpenseListItem = ({ dispatch, id, description, amount, createdAt }) => (
           console.log(id, description);
         }}
       >
-        remove
+        x
       </button>
     </p>
   </div>
