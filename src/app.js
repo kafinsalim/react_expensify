@@ -10,14 +10,14 @@ import "./styles/styles.scss";
 
 const store = configureStore();
 
-store.dispatch(
-  addExpense({
-    description: "sodaqohh",
-    amount: 5000,
-    note: "notess",
-    createdAt: 2555
-  })
-);
+// store.dispatch(
+//   addExpense({
+//     description: "sodaqohh",
+//     amount: 5000,
+//     note: "notess",
+//     createdAt: 2555
+//   })
+// );
 
 // store.dispatch(sortByDate());
 
