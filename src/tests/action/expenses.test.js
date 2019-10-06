@@ -32,12 +32,11 @@ test("should setup addExpense action object with provided value", () => {
 });
 
 test("should setup editExpense action object", () => {
-  const action = editExpense({
-    id: "123asd",
-    updates: {
-      description: "some description"
-    }
-  });
+  const id = "123asd";
+  const updates = {
+    description: "some description"
+  };
+  const action = editExpense(id, updates);
   expect(action).toEqual({
     type: "EDIT_EXPENSE",
     id: "123asd",

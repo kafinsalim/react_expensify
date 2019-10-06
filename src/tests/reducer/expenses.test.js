@@ -9,7 +9,7 @@ test("should set default state", () => {
 });
 
 // ADD
-test("should add Expense", () => {
+test("should add an expense", () => {
   const expense = {
     id: uuid(),
     description: "Something to buy",
@@ -26,14 +26,43 @@ test("should add Expense", () => {
 });
 
 // REMOVE
-test("should remove an Expense", () => {
-  const id = "1";
+test("should remove an expense", () => {
   const action = {
     type: "REMOVE_EXPENSE",
-    id
+    id: expenses[1].id
   };
   const state = expensesReducer(expenses, action);
-  expect(state).toEqual(expenses.filter(({ id }) => id !== action.id));
+  expect(state).toEqual([expenses[0], expenses[2]]);
+});
+
+test("should not remove any expense", () => {
+  const action = {
+    type: "REMOVE_EXPENSE",
+    id: -1
+  };
+  const state = expensesReducer(expenses, action);
+  expect(state).toEqual(expenses);
 });
 
 // EDIT
+test("should edit an expense", () => {
+  const description = "some new name";
+  const action = {
+    type: "EDIT_EXPENSE",
+    id: expenses[1].id,
+    updates: { description }
+  };
+  const state = expensesReducer(expenses, action);
+  expect(state[1].description).toBe(description);
+});
+
+test("should not edit any expense", () => {
+  const description = "some new name";
+  const action = {
+    type: "EDIT_EXPENSE",
+    id: -1,
+    updates: { description }
+  };
+  const state = expensesReducer(expenses, action);
+  expect(state).toEqual(expenses);
+});
